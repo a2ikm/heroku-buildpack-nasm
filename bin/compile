@@ -1,0 +1,38 @@
+#!/bin/sh
+
+VERSION="2.11.08"
+TMP_DIR="$HOME/tmp/nasm"
+INSTALL_DIR="$HOME/vendor/nasm"
+DOWNLOAD_URL="http://www.nasm.us/pub/nasm/releasebuilds/${VERSION}/nasm-${VERSION}.tar.xz"
+PROFILE_PATH="$HOME/.profile.d/nasm.sh"
+
+indent() {
+  sed -u 's/^/       /'
+}
+
+echo "-----> Installing NASM $VERSION"
+
+mkdir -p $TMP_DIR
+cd $TMP_DIR
+
+echo "Downloading" | indent
+curl -L --silent $DOWNLOAD_URL | tar -x
+cd "nasm-${VERSION}"
+
+echo "Configuring" | indent
+./configure --prefix=$INSTALL_DIR
+
+echo "Building" | indent
+make
+make install
+
+echo "Setting environment variables" | indent
+mkdir -p $(dirname $PROFILE_PATH)
+echo "export PATH=\$PATH:$INSTALL_DIR/bin" >> $PROFILE_PATH
+echo "export LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:$INSTALL_DIR/lib" >> $PROFILE_PATH
+
+echo "Cleaning" | indent
+cd $HOME
+rm -rf $TMP_DIR
+
+exit 0
