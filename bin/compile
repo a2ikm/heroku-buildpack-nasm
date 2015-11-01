@@ -16,7 +16,7 @@ mkdir -p $TMP_DIR
 cd $TMP_DIR
 
 echo "Downloading" | indent
-curl -L --silent $DOWNLOAD_URL | tar -x
+curl -L --silent $DOWNLOAD_URL | tar -xJ
 cd "nasm-${VERSION}"
 
 echo "Configuring" | indent
