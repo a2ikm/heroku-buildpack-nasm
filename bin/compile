@@ -12,6 +12,7 @@ indent() {
 
 echo "-----> Installing NASM $VERSION"
 
+mkdir -p $INSTALL_DIR
 mkdir -p $TMP_DIR
 cd $TMP_DIR
 
